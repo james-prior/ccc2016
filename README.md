@@ -7,6 +7,9 @@ Presentation given at
 [Columbus Code Camp 2016](http://columbuscodecamp.com/2016/)
 on 2016-10-22.
 
+Many of the Jupyter notebooks can be viewed with
+[nbviewer](http://nbviewer.jupyter.org/github/james-prior/ccc2016/tree/master/).
+
 ---
 2016-10-23:
 
