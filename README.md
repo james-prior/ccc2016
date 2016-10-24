@@ -8,20 +8,13 @@ Presentation given at
 on 2016-10-22.
 
 ---
-# Columbus Arduino Raspberry Pi Enthusiasts
-### (CARPE)
-### http://colug.net/carpe/
-CARPE has people who play and work with embedded microcontrollers.
-It has a good mix of beginners and experienced professionals
-who play with hardware and software.
-
----
 2016-10-23:
 
 I am refactoring the presentation and the code for it.
-It will posted in this repo as I improve it.
+They will posted in this repo as I improve it.
 
-First will be the very first software.
+First will be the very first program.
 It had three header files and one C file. That's too many files.
-They will be consolidated to just one C file. KISS!!!
+They will be consolidated to just one C file.
+[KISS!!!](softwar://en.wikipedia.org/wiki/KISS_principle)
 
