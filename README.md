@@ -19,5 +19,5 @@ They will posted in this repo as I improve it.
 First will be the very first program.
 It had three header files and one C file. That's too many files.
 They will be consolidated to just one C file.
-[KISS!!!](softwar://en.wikipedia.org/wiki/KISS_principle)
+[KISS!!!](https://en.wikipedia.org/wiki/KISS_principle)
 
