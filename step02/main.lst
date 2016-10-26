@@ -1,0 +1,90 @@
+C51 COMPILER V5.02,  SN-  MAIN                                                             10/25/16  22:25:28  PAGE 1   
+
+
+DOS C51 COMPILER V5.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN MAIN.OBJ
+COMPILER INVOKED BY: C:\C55\C51.EXE MAIN.C IP SB CD WL(2) ROM(LARGE) SMALL PL(24575) 
+
+stmt level    source
+
+   1          /* Modification History
+   2          * 
+   3          * 2016-10-20 jep Start with almost barest minimum: Just toggle LED fast.
+   4          */
+   5          
+   6          #define False (0)
+   7          #define True (!False)
+   8          
+   9          /* Silicon Laboratories C8051F321 registers
+  10          *  see http://www.keil.com/dd/docs/datashts/silabs/c8051f32x.pdf */
+  11          
+  12          sfr pca0md=0xD9; /* PCA Mode Register */
+  13          #define WatchdogTimerEnable_Mask (1<<6)
+  14          
+  15          sfr xbr1=0xE2; /* Port I/O Crossbar Register 1 */
+  16          #define CrossbarEnabled     (1<<6)
+  17          
+  18          /* particular to this board */
+  19          
+  20          sbit led1Dark     =0xA3; /* DO; P2.3; 0==light   1==dark */
+  21          
+  22          void main(void)
+  23          {
+  24   1         pca0md&=~WatchdogTimerEnable_Mask; /* disable watchdog */
+  25   1      
+  26   1         xbr1=CrossbarEnabled;
+  27   1      
+  28   1         for (;;) {
+  29   2            led1Dark=False;
+  30   2            led1Dark=True;
+  31   2         }
+  32   1      }
+  33          
+C51 COMPILER V5.02,  SN-  MAIN                                                             10/25/16  22:25:28  PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 22
+                                           ; SOURCE LINE # 23
+                                           ; SOURCE LINE # 24
+0000 53D9BF        ANL     pca0md,#0BFH
+                                           ; SOURCE LINE # 26
+0003 75E240        MOV     xbr1,#040H
+                                           ; SOURCE LINE # 28
+0006         ?C0001:
+                                           ; SOURCE LINE # 29
+0006 C2A3          CLR     led1Dark
+                                           ; SOURCE LINE # 30
+0008 D2A3          SETB    led1Dark
+                                           ; SOURCE LINE # 31
+000A 80FA          SJMP    ?C0001
+                                           ; SOURCE LINE # 32
+000C 22            RET     
+             ; FUNCTION main (END)
+
+C51 COMPILER V5.02,  SN-  MAIN                                                             10/25/16  22:25:28  PAGE 3   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+xbr1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E2H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+pca0md . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D9H  1
+led1Dark . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     13    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
