@@ -3,7 +3,7 @@
 
 ### https://github.com/james-prior/ccc2016
 
-Presentation given at
+Files for presentation given at
 [Columbus Code Camp 2016](http://columbuscodecamp.com/2016/)
 on 2016-10-22.
 
@@ -17,7 +17,4 @@ I am refactoring the presentation and the code for it.
 They will posted in this repo as I improve it.
 
 First will be the very first program.
-It had three header files and one C file. That's too many files.
-They will be consolidated to just one C file.
-[KISS!!!](https://en.wikipedia.org/wiki/KISS_principle)
 
