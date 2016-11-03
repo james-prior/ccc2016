@@ -1,0 +1,7 @@
+main.obj,
+uart.obj
+to myboard
+ramsize(255)
+pl(65535)
+ix
+DL DP DS LI MA PU SY

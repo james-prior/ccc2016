@@ -1,0 +1,319 @@
+C51 COMPILER V5.02,  SN-  MAIN                                                             11/02/16  23:24:44  PAGE 1   
+
+
+DOS C51 COMPILER V5.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN MAIN.OBJ
+COMPILER INVOKED BY: C:\C55\C51.EXE MAIN.C IP SB CD WL(2) ROM(LARGE) SMALL PL(24575) 
+
+stmt level    source
+
+   1          /* Modification History
+   2          * 
+   3          * 2016-10-20 jep Send 'U' on UART.
+   4          * 2016-10-20 jep Start with almost barest minimum: Just toggle LED fast.
+   5          */
+   6          
+   7          #define Main_C
+   8          #include "misc.h"
+   9          #include "ascii.h"
+  10          #include "myboard.h"
+  11          #include "8051f3xx.h"
+  12          #include "slf32x.h"
+  13          #include "uart.h"
+  14          #include "main.h"
+  15          
+  16          /*****************************************************************************/
+  17          
+  18          void initializeOscillators(void)
+  19          {
+  20   1         oscicn=IntOscEnable_Mask|IntOscDivideBy2;
+  21   1         while (!(oscicn&IntOscReady_Mask))
+  22   1            ;
+  23   1      
+  24   1         oscxcn=ExtOscDisabled;
+  25   1      
+  26   1         /* configure the 4* clock multiplier */
+  27   1         clkmul=0; /* reset the multiplier */
+  28   1      
+  29   1         /* 4X multiplier will be low power, if multiplier has no input */
+  30   1         clksel=USBClk4XMult    |SysClkIntOsc;
+  31   1      }
+  32          
+  33          /*****************************************************************************/
+  34          
+  35          void initialize(void)
+  36          {
+  37   1         pca0md&=~WatchdogTimerEnable_Mask; /* disable watchdog */
+  38   1      
+  39   1         P0    =RXD_Mask|TXD_Mask;
+  40   1         P0MDIN=RXD_Mask|TXD_Mask;
+  41   1         P0MDOUT=TXD_Mask;
+  42   1      
+  43   1         /* The crossbar must be enabled and configured before digital peripherals 
+  44   1         *  are enabled. */
+  45   1         xbr0=UARTAtPin;
+  46   1         xbr1=CrossbarEnabled;
+  47   1      
+  48   1         initializeOscillators();
+  49   1         initializeUart(UartBitRate);
+  50   1      }
+  51          
+  52          /*****************************************************************************/
+  53          
+  54          void main(void)
+  55          {
+  56   1         byte c;
+  57   1      
+  58   1         initialize();
+  59   1      
+  60   1         putUartByte('e');
+  61   1         putUartByte('c');
+  62   1         putUartByte('h');
+  63   1         putUartByte('o');
+  64   1         putUartByte(ASCII_CR);
+  65   1         putUartByte(ASCII_LF);
+  66   1      
+  67   1         for (;;) {
+  68   2            c=getUartByte();
+  69   2            putUartByte(c);
+  70   2      
+  71   2            led1Dark=False;
+  72   2            led1Dark=True;
+  73   2         }
+  74   1      }
+  75          
+C51 COMPILER V5.02,  SN-  MAIN                                                             11/02/16  23:24:44  PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION initializeOscillators (BEGIN)
+                                           ; SOURCE LINE # 18
+                                           ; SOURCE LINE # 19
+                                           ; SOURCE LINE # 20
+0000 75B282        MOV     oscicn,#082H
+0003         ?C0001:
+                                           ; SOURCE LINE # 21
+0003 E5B2          MOV     A,oscicn
+0005 30E6FB        JNB     ACC.6,?C0001
+0008         ?C0002:
+                                           ; SOURCE LINE # 24
+0008 E4            CLR     A
+0009 F5B1          MOV     oscxcn,A
+                                           ; SOURCE LINE # 27
+000B F5B9          MOV     clkmul,A
+                                           ; SOURCE LINE # 30
+000D F5A9          MOV     clksel,A
+                                           ; SOURCE LINE # 31
+000F 22            RET     
+             ; FUNCTION initializeOscillators (END)
+
+             ; FUNCTION initialize (BEGIN)
+                                           ; SOURCE LINE # 35
+                                           ; SOURCE LINE # 36
+                                           ; SOURCE LINE # 37
+0000 53D9BF        ANL     pca0md,#0BFH
+                                           ; SOURCE LINE # 39
+0003 758030        MOV     P0,#030H
+                                           ; SOURCE LINE # 40
+0006 75F130        MOV     P0MDIN,#030H
+                                           ; SOURCE LINE # 41
+0009 75A410        MOV     P0MDOUT,#010H
+                                           ; SOURCE LINE # 45
+000C 75E101        MOV     xbr0,#01H
+                                           ; SOURCE LINE # 46
+000F 75E240        MOV     xbr1,#040H
+                                           ; SOURCE LINE # 48
+0012 120000  R     LCALL   initializeOscillators
+                                           ; SOURCE LINE # 49
+0015 7F00          MOV     R7,#00H
+0017 7E4B          MOV     R6,#04BH
+0019 120000  E     LCALL   _initializeUart
+                                           ; SOURCE LINE # 50
+001C 22            RET     
+             ; FUNCTION initialize (END)
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 54
+                                           ; SOURCE LINE # 55
+                                           ; SOURCE LINE # 58
+0000 120000  R     LCALL   initialize
+                                           ; SOURCE LINE # 60
+0003 7F65          MOV     R7,#065H
+0005 120000  E     LCALL   _putUartByte
+                                           ; SOURCE LINE # 61
+0008 7F63          MOV     R7,#063H
+000A 120000  E     LCALL   _putUartByte
+                                           ; SOURCE LINE # 62
+000D 7F68          MOV     R7,#068H
+000F 120000  E     LCALL   _putUartByte
+                                           ; SOURCE LINE # 63
+0012 7F6F          MOV     R7,#06FH
+0014 120000  E     LCALL   _putUartByte
+                                           ; SOURCE LINE # 64
+0017 7F0D          MOV     R7,#0DH
+0019 120000  E     LCALL   _putUartByte
+                                           ; SOURCE LINE # 65
+001C 7F0A          MOV     R7,#0AH
+001E 120000  E     LCALL   _putUartByte
+                                           ; SOURCE LINE # 67
+0021         ?C0005:
+                                           ; SOURCE LINE # 68
+0021 120000  E     LCALL   getUartByte
+0024 8F00    R     MOV     c,R7
+                                           ; SOURCE LINE # 69
+0026 120000  E     LCALL   _putUartByte
+                                           ; SOURCE LINE # 71
+0029 C2A3          CLR     led1Dark
+                                           ; SOURCE LINE # 72
+002B D2A3          SETB    led1Dark
+                                           ; SOURCE LINE # 73
+002D 80F2          SJMP    ?C0005
+                                           ; SOURCE LINE # 74
+002F 22            RET     
+             ; FUNCTION main (END)
+
+C51 COMPILER V5.02,  SN-  MAIN                                                             11/02/16  23:24:44  PAGE 3   
+
+NAME                                    CLASS   MSPACE  TYPE    OFFSET  SIZE
+====                                    =====   ======  ====    ======  ====
+
+
+xbr1 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E2H  1
+CCF2 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DAH  1
+TB80 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009BH  1
+ClkRecoveryMask. . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+indexUsbRegEnum. . . . . . . . . . . .  * TAG *  -----  ENUM     -----  -----
+CCF3 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DBH  1
+P0 . . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   0080H  1
+SPIEN. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00F8H  1
+CCF4 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DCH  1
+clksel . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A9H  1
+oscicn . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B2H  1
+FullSpeedModeClkRecovery . . . . . . .  E_CONST  -----  INT      -----  2
+AC . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D6H  1
+EA . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AFH  1
+MCE0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009DH  1
+i2cAckIsRequested. . . . . . . . . . .  ABSBIT   -----  BIT      00C3H  1
+CF . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DFH  1
+clkmul . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B9H  1
+P0MDOUT. . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00A4H  1
+i2cInterruptRequested. . . . . . . . .  ABSBIT   -----  BIT      00C0H  1
+SingleStepMode . . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+ClkRecoveryDisabled. . . . . . . . . .  E_CONST  -----  INT      -----  2
+i2cAck . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C1H  1
+i2cStart . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C5H  1
+TXBMT. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00F9H  1
+oscxcn . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00B1H  1
+CR . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00DEH  1
+T2SPLIT. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CBH  1
+TF2H . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CFH  1
+REN0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009CH  1
+TF2L . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CEH  1
+ARBLOST. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C2H  1
+CY . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D7H  1
+SI . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C0H  1
+flag . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+signedWord . . . . . . . . . . . . . .  TYPEDEF  -----  INT      -----  2
+ClkRecoveryEnabled . . . . . . . . . .  E_CONST  -----  INT      -----  2
+LowSpeedModeClkRecovery. . . . . . . .  E_CONST  -----  INT      -----  2
+AD0INT . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00EDH  1
+OV . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D2H  1
+main . . . . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+  c. . . . . . . . . . . . . . . . . .  AUTO     DATA   U_CHAR   0000H  1
+MODF . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00FDH  1
+i2cStop. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C4H  1
+ulong. . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_LONG   -----  4
+S0MODE . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009FH  1
+P0MDIN . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00F1H  1
+i2cIsMaster. . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C7H  1
+TF2LEN . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CDH  1
+SPIF . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00FFH  1
+WCOL . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00FEH  1
+byte . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_CHAR   -----  1
+NSSMD0 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00FAH  1
+_initializeUart. . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+pca0md . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00D9H  1
+NSSMD1 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00FBH  1
+initialize . . . . . . . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+T2XCLK . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C8H  1
+rxInterruptFlag. . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+txInterruptFlag. . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+IE0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0089H  1
+word . . . . . . . . . . . . . . . . .  TYPEDEF  -----  U_INT    -----  2
+IE1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008BH  1
+ES0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ACH  1
+AD0EN. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00EFH  1
+ET0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A9H  1
+ET1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ABH  1
+TF0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008DH  1
+ET2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ADH  1
+RI0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0098H  1
+TF1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008FH  1
+EX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A8H  1
+TI0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0099H  1
+IT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      0088H  1
+MASTER . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C7H  1
+EX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AAH  1
+IT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008AH  1
+P. . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D0H  1
+ACK. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C1H  1
+ClkRecovery1StepMask . . . . . . . . .  E_CONST  -----  INT      -----  2
+initializeOscillators. . . . . . . . .  PUBLIC   CODE   PROC     -----  -----
+TXMODE . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C6H  1
+PS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BCH  1
+PT0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B9H  1
+RS0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D3H  1
+PT1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BBH  1
+RS1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D4H  1
+PT2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BDH  1
+TR0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008CH  1
+AD0TM. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00EEH  1
+TR1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      008EH  1
+TR2. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CAH  1
+PX0. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00B8H  1
+PX1. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BAH  1
+SelectEndpoint0. . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+clkrecUsbRegEnum . . . . . . . . . . .  * TAG *  -----  ENUM     -----  -----
+SelectEndpoint1. . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+SelectEndpoint2. . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+SelectEndpoint3. . . . . . . . . . . .  E_CONST  -----  INT      -----  2
+i2cIsTransmitter . . . . . . . . . . .  ABSBIT   -----  BIT      00C6H  1
+ESPI0. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00AEH  1
+LowSpdClkRecoveryModeMask. . . . . . .  E_CONST  -----  INT      -----  2
+NormalCalibrationMode. . . . . . . . .  E_CONST  -----  INT      -----  2
+STA. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C5H  1
+i2cArbitrationIsLost . . . . . . . . .  ABSBIT   -----  BIT      00C2H  1
+led1Dark . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00A3H  1
+PSPI0. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00BEH  1
+T2SOF. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00CCH  1
+_putUartByte . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+RXOVRN . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00FCH  1
+ACKRQ. . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C3H  1
+F0 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D5H  1
+AD0CM0 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00E8H  1
+F1 . . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D1H  1
+STO. . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00C4H  1
+getUartByte. . . . . . . . . . . . . .  EXTERN   CODE   PROC     -----  -----
+AD0CM1 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00E9H  1
+AD0CM2 . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00EAH  1
+AD0WINT. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00EBH  1
+AD0BUSY. . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00ECH  1
+CCF0 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D8H  1
+RB80 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      009AH  1
+xbr0 . . . . . . . . . . . . . . . . .  SFR      DATA   U_CHAR   00E1H  1
+CCF1 . . . . . . . . . . . . . . . . .  ABSBIT   -----  BIT      00D9H  1
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     93    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
