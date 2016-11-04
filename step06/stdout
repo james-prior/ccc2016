@@ -1,0 +1,25 @@
+MS-DOS C51 COMPILER V5.02
+Copyright (c) 1995 Archimedes Software, Inc.  All rights reserved.
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+MS-DOS C51 COMPILER V5.02
+Copyright (c) 1995 Archimedes Software, Inc.  All rights reserved.
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+
+MS-DOS BL51 BANKED LINKER/LOCATER V3.52
+Copyright (c) 1995 Archimedes Software, Inc.  All rights reserved.
+main.obj,
+uart.obj
+to myboard
+ramsize(255)
+pl(65535)
+ix
+DL DP DS LI MA PU SY
+
+
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
+DOS MCS-51 OBJECT TO HEX FILE CONVERTER V2.1
+Copyright (c) 1995 Archimedes Software, Inc.  All rights reserved.
+
+GENERATING INTEL HEX FILE: MYBOARD.HEX
