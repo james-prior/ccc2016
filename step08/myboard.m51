@@ -1,0 +1,130 @@
+BL51 BANKED LINKER/LOCATER V3.52                                                          11/02/16  23:52:55  PAGE 1
+
+
+MS-DOS BL51 BANKED LINKER/LOCATER V3.52, INVOKED BY:
+C:\C55\BL51.EXE MAIN.OBJ, UART.OBJ TO MYBOARD RAMSIZE (255) PL (65535) IX DL DP DS LI MA PU SY
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  MAIN.OBJ (MAIN)
+  UART.OBJ (UART)
+  ..\C51S.LIB (?C_STARTUP)
+  ..\C51S.LIB (?C?LMUL)
+  ..\C51S.LIB (?C?ULDIV)
+  ..\C51S.LIB (?C?LNEG)
+
+
+LINK MAP OF MODULE:  MYBOARD (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0001H     UNIT         ?DT?UART
+            DATA    0009H     0003H     UNIT         _DATA_GROUP_
+            IDATA   000CH     0001H     UNIT         _IDATA_GROUP_
+            IDATA   000DH     0001H     UNIT         ?STACK
+
+            * * * * * * *  X D A T A   M E M O R Y  * * * * * * *
+            XDATA   0000H     002CH     UNIT         ?XD?UART
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0007H     UNIT         ?PR?_PARSECOMMANDBYTE?MAIN
+            CODE    000AH     0010H     UNIT         ?PR?INITIALIZEOSCILLATORS?MAIN
+                    001AH     0009H                  *** GAP ***
+            CODE    0023H     0003H     ABSOLUTE     
+            CODE    0026H     0039H     UNIT         ?PR?INITIALIZE?MAIN
+            CODE    005FH     0071H     UNIT         ?PR?MAIN?MAIN
+            CODE    00D0H     003FH     UNIT         ?PR?_PUTUARTBYTE?UART
+            CODE    010FH     000FH     UNIT         ?PR?UARTTXQHAS?UART
+            CODE    011EH     0033H     UNIT         ?PR?GETUARTBYTE?UART
+            CODE    0151H     000FH     UNIT         ?PR?UARTRXQHAS?UART
+            CODE    0160H     005FH     UNIT         ?PR?_SETUARTBITRATE?UART
+            CODE    01BFH     007CH     UNIT         ?PR?UARTINTERRUPTHANDLER?UART
+            CODE    023BH     003BH     UNIT         ?PR?_INITIALIZEUART?UART
+            CODE    0276H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0282H     012BH     UNIT         ?C?LIB_CODE
+
+
+
+OVERLAY MAP OF MODULE:   MYBOARD (MAIN)
+
+
+SEGMENT                                  DATA_GROUP          IDATA_GROUP
+  +--> CALLED SEGMENT                  START    LENGTH     START    LENGTH
+--------------------------------------------------------------------------
+?C_C51STARTUP                          -----    -----      -----    -----
+  +--> ?PR?MAIN?MAIN
+
+?PR?MAIN?MAIN                          0009H    0001H      -----    -----
+  +--> ?PR?INITIALIZE?MAIN
+  +--> ?PR?_PUTUARTBYTE?UART
+  +--> ?PR?UARTRXQHAS?UART
+  +--> ?PR?GETUARTBYTE?UART
+  +--> ?PR?_PARSECOMMANDBYTE?MAIN
+
+?PR?INITIALIZE?MAIN                    -----    -----      -----    -----
+  +--> ?PR?INITIALIZEOSCILLATORS?MAIN
+  +--> ?PR?_INITIALIZEUART?UART
+  +--> ?PR?UARTTXQHAS?UART
+
+?PR?_INITIALIZEUART?UART               -----    -----      -----    -----
+  +--> ?PR?_SETUARTBITRATE?UART
+
+?PR?_SETUARTBITRATE?UART               000AH    0002H      000CH    0001H
+
+?PR?_PARSECOMMANDBYTE?MAIN             -----    -----      -----    -----
+  +--> ?PR?_PUTUARTBYTE?UART
+
+
+
+SYMBOL TABLE OF MODULE:  MYBOARD (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C?LMUL
+  C:0282H         PUBLIC        ?C?LMUL
+  -------         ENDMOD        ?C?LMUL
+
+  -------         MODULE        ?C?ULDIV
+  C:030DH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?LNEG
+  C:039FH         PUBLIC        ?C?LNEG
+  -------         ENDMOD        ?C?LNEG
+
+
+
+INTER-MODULE CROSS-REFERENCE LISTING
+------------------------------------
+
+
+NAME . . . . . . . . . USAGE    MODULE NAMES
+--------------------------------------------
+
+?C?LMUL. . . . . . . . CODE;    ?C?LMUL  UART  
+?C?LNEG. . . . . . . . CODE;    ?C?LNEG  UART  
+?C?ULDIV . . . . . . . CODE;    ?C?ULDIV  UART  
+?C_START . . . . . . . CODE;    ** L51 GENERATED **  ?C_STARTUP  
+?C_STARTUP . . . . . . CODE;    ?C_STARTUP  MAIN  
+GETUARTBYTE. . . . . . CODE;    UART  MAIN  
+INITIALIZE . . . . . . CODE;    MAIN  
+INITIALIZEOSCILLATORS. CODE;    MAIN  
+MAIN . . . . . . . . . CODE;    MAIN  
+UARTINTERRUPTHANDLER . CODE;    UART  
+UARTRXQHAS . . . . . . CODE;    UART  MAIN  
+UARTTXQHAS . . . . . . CODE;    UART  MAIN  
+_INITIALIZEUART. . . . CODE;    UART  MAIN  
+_PARSECOMMANDBYTE. . . CODE;    MAIN  
+_PUTUARTBYTE . . . . . CODE;    UART  MAIN  
+_SETUARTBITRATE. . . . CODE;    UART  
+
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
