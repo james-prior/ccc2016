@@ -15,6 +15,3 @@ Many of the Jupyter notebooks can be viewed with
 
 I am refactoring the presentation and the code for it.
 They will posted in this repo as I improve it.
-
-First will be the very first program.
-
