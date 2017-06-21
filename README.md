@@ -4,7 +4,7 @@
 ### https://github.com/james-prior/ccc2016
 
 Files for presentation given at
-[Columbus Code Camp 2016](http://columbuscodecamp.com/2016/)
+[Columbus Code Camp 2016](http://columbuscodecamp.com/)
 on 2016-10-22.
 
 Many of the Jupyter notebooks can be viewed with
